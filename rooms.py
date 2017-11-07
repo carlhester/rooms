@@ -1,5 +1,6 @@
 import os, sys, time
-
+import title
+import client
 
 class Player():
     def __init__(self, name, location, facing):
@@ -7,6 +8,7 @@ class Player():
         self.location = location
         self.facing = facing
         self.hp = 100
+        nickname = client.create_player(name, location)
 
     def turn_east(self):
         self.facing = "East"
@@ -17,7 +19,15 @@ class Player():
     def turn_south(self):
         self.facing = "South"
 
-        
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'        
 
 class Room():
     def __init__(self, room_id, name, description, n, s, w, e):
@@ -28,6 +38,18 @@ class Room():
         self.s = s 
         self.w = w 
         self.e = e 
+
+def main_menu():
+    title.print_title()
+    print("\n\n")
+    user = raw_input("Your name: ")
+    new_player = Player(user, 10, 'North')
+    return
+    
+
+    
+
+
 
 def create_rooms():
     # 1 Foyer
@@ -47,36 +69,26 @@ def create_rooms():
 
     room_list = [] 
     '''
-    new_room = Room(9, ' Room', '', False, 3, False, False)
+    room_list.append(Room(9, ' Room', '', False, 3, False, False)
     room_list.append(new_room)
     '''
-    new_room = Room(9, 'Dining Room', 'There is a large dining table here with chairs.  A few extra chairs are against the wall.', False, 4, False, 2)
-    room_list.append(new_room)
+    room_list.append(Room(9, 'Dining Room', 'There is a large dining table here with chairs.  A few extra chairs are against the wall.', False, 4, False, 2))
 
-    new_room = Room(6, 'Kids Bedroom', 'You are in a kid\'s bedroom.  A large bunk bed takes up most of the room.  There are two dressers in the other corners.  Clothes and books are scattered around.  Its very messy', False, 3, False, False)
-    room_list.append(new_room)
+    room_list.append(Room(6, 'Kids Bedroom', 'You are in a kid\'s bedroom.  A large bunk bed takes up most of the room.  There are two dressers in the other corners.  Clothes and books are scattered around.  Its very messy', False, 3, False, False))
 
-    new_room = Room(7, 'Parents Bedroom', 'You enter a massive bedroom.  There is a king size bed and two tables with lamps on your right.  A tan chair and foot rest is in the corner.  A small dresser is to your right, and another is on your left with a TV on top. Between the chair and TV, to the west, is mirrored hallway', False, 3, 11, False)
-    room_list.append(new_room)
+    room_list.append(Room(7, 'Parents Bedroom', 'You enter a massive bedroom.  There is a king size bed and two tables with lamps on your right.  A tan chair and foot rest is in the corner.  A small dresser is to your right, and another is on your left with a TV on top. Between the chair and TV, to the west, is mirrored hallway', False, 3, 11, False))
 
-    new_room = Room(10, 'Porch', 'You are standing on a small porch.  There are two doors ahead of you to the north and a small table to your left.  The table has some small halloween decorations and a rotting pumpkin.', 1, False, False, False)
-    room_list.append(new_room)
+    room_list.append(Room(10, 'Porch', 'You are standing on a small porch.  There are two doors ahead of you to the north and a small table to your left.  The table has some small halloween decorations and a rotting pumpkin.', 1, False, False, False))
 
-    new_room = Room(1, 'Foyer', 'You are standing on in the entryway. To the west is a split staircase, going up to a hallway and down to a living area.  Ahead of you is a living room and you can see a sofa.  To your right is an entryway into the Kitchen.', 2, 10, 3, 4)
-    room_list.append(new_room)
+    room_list.append(Room(1, 'Foyer', 'You are standing on in the entryway. To the west is a split staircase, going up to a hallway and down to a living area.  Ahead of you is a living room and you can see a sofa.  To your right is an entryway into the Kitchen.', 2, 10, 3, 4))
 
-    new_room = Room(2, 'Living Room', 'The living room opens up to your right.  There is a large leather sofa, a chair in the corner and a chest against the wall.  There is also a fireplace here.  You can see a dining room ahead to the north.', 9, 1, False, False)
-    room_list.append(new_room)
+    room_list.append(Room(2, 'Living Room', 'The living room opens up to your right.  There is a large leather sofa, a chair in the corner and a chest against the wall.  There is also a fireplace here.  You can see a dining room ahead to the north.', 9, 1, False, False))
 
-    new_room = Room(3, 'Upstairs Hallway', 'You are in an upstairs hallway.  There are two doors on the west side, a bathroom straight ahead north , and double doors to the east on your right', 5, 1, 6, 7)
-    room_list.append(new_room)
+    room_list.append(Room(3, 'Upstairs Hallway', 'You are in an upstairs hallway.  There are two doors on the west side, a bathroom straight ahead north , and double doors to the east on your right', 5, 1, 6, 7))
 
-    new_room = Room(4, 'Kitchen', 'You are in a kitchen with a hardwood floor.  There is a round table with 4 chairs.  There are granite countertops with a stove built in.  The refridgerator is on the far side of the room and hums quietly.  A dog bowl is on the floor. At the far end of the room, you see an entrance into the dining room. ', 9, 1, False, False)
-    room_list.append(new_room)
+    room_list.append(Room(4, 'Kitchen', 'You are in a kitchen with a hardwood floor.  There is a round table with 4 chairs.  There are granite countertops with a stove built in.  The refridgerator is on the far side of the room and hums quietly.  A dog bowl is on the floor. At the far end of the room, you see an entrance into the dining room. ', 9, 1, False, False))
 
-    new_room = Room(5, 'Upstairs Bathroom', 'You are in a small bathroom.  There are two sinks and a mirror on your right.  The toilet is hidden behind the open door.  The shower has a glass door and is partially open.  There are many towels hanging on the hooks. ', False, 3, False, False)
-    room_list.append(new_room)
-
+    room_list.append(Room(5, 'Upstairs Bathroom', 'You are in a small bathroom.  There are two sinks and a mirror on your right.  The toilet is hidden behind the open door.  The shower has a glass door and is partially open.  There are many towels hanging on the hooks. ', False, 3, False, False))
 
     rooms = {}
     for each_room in room_list:
@@ -88,7 +100,11 @@ def create_rooms():
 
 def get_next_room(room, player):
     while True:
-        choice = raw_input("Which way? ")
+        choice = raw_input("Which way? (q to quit)")
+        if choice.lower() == 'q':
+            sys.exit()
+        if choice.lower() == 'who':
+            who()
         if choice.lower() == 'n' and room.n != False:
             player.turn_north()
             return room.n
@@ -120,25 +136,54 @@ def set_available_directions(room):
         available_directions += " E"
     return available_directions
 
-def tell_player_status(rooms, player):
-    print("\n")
-    print("You are in the %s" % rooms[player.location].name)
-    print("\n")
-    print("You are facing %s" % player.facing)
 
+def tell_player_status(rooms, player):
+    title.print_title()
+    print bcolors.OKBLUE,
+    if player.location == 10 or player.location == 14:
+        print("\n  You are on the %s, facing %s\n" % (rooms[player.location].name, player.facing))
+    else:
+        print("\n  You are in the %s, facing %s\n" % (rooms[player.location].name, player.facing))
+    print bcolors.ENDC,
+
+    items = client.get_objects_in_room(player.location)
+    
+    print bcolors.OKGREEN,
+    if items[0]:
+        print("These items are here:"),
+        for item in items[0]:
+            print("%s," % item), 
+    else:
+        print("There are no items here"),
+    print bcolors.ENDC,
+    
+    print bcolors.HEADER,
+    if items[1]:
+        print("\n  These others are here :"),
+        for item in items[1]:
+            for person in item:
+                print("%s" % person),
+    else:
+        print("\n  There are no others here")
+    print bcolors.ENDC,
+
+def who():
+    stuff = client.who()
+    print stuff
+    return
+    
 
 
 def run_game(rooms):
+    main_menu()
     player = Player('Carl', 10, 'North')
     
     while True:
-        #os.system('clear')
+        os.system('clear')
         tell_player_status(rooms, player)
         available_directions = set_available_directions(rooms[player.location])
         print
         print 
-    #    print rooms[player_location].name
-    #    print
         print rooms[player.location].description
         print
         print "Available Directions: " + available_directions
