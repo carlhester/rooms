@@ -43,13 +43,8 @@ def main_menu():
     title.print_title()
     print("\n\n")
     user = raw_input("Your name: ")
-    new_player = Player(user, 10, 'North')
-    return
-    
-
-    
-
-
+    player = Player(user, 10, 'North')
+    return player
 
 def create_rooms():
     # 1 Foyer
@@ -71,10 +66,19 @@ def create_rooms():
     '''
     room_list.append(Room(9, ' Room', '', False, 3, False, False)
     room_list.append(new_room)
+    North, South, West, East
     '''
-    room_list.append(Room(9, 'Dining Room', 'There is a large dining table here with chairs.  A few extra chairs are against the wall.', False, 4, False, 2))
+    room_list.append(Room(8, 'Kids Bedroom', 'A large bunk bed takes up most of the room.', 13, False, False, False))
+    room_list.append(Room(14, 'Outside Deck', 'A large wooden deck with furniture and a hammock.', False, 9, False, False))
+    room_list.append(Room(13, 'West Upstairs Hall', 'The west end of the hallway has the laundry closet.', False, 8, 5, 3))
+    room_list.append(Room(12, 'Master Bathroom', 'A shower with a glass door at one end and a bath tub at the other.  A window on the other side of the tub overlooks the neighborhood.', False, False, False, 11))
+    room_list.append(Room(11, 'Master Bedroom Hall', 'A double sink on one side and a mirrored closet on the other.', False, False, 12, 7))
 
-    room_list.append(Room(6, 'Kids Bedroom', 'You are in a kid\'s bedroom.  A large bunk bed takes up most of the room.  There are two dressers in the other corners.  Clothes and books are scattered around.  Its very messy', False, 3, False, False))
+    room_list.append(Room(9, 'Dining Room', 'There is a large dining table here with chairs.  A few extra chairs are against the wall.', 14, 4, 2, False))
+    
+    room_list.append(Room(6, 'Guest Room', 'A mostly empty room with a fold out bed.', 3, False, False, False))
+
+    room_list.append(Room(8, 'Kids Bedroom', 'You are in a kid\'s bedroom.  A large bunk bed takes up most of the room.  There are two dressers in the other corners.  Clothes and books are scattered around.  Its very messy', 13, False, False, False))
 
     room_list.append(Room(7, 'Parents Bedroom', 'You enter a massive bedroom.  There is a king size bed and two tables with lamps on your right.  A tan chair and foot rest is in the corner.  A small dresser is to your right, and another is on your left with a TV on top. Between the chair and TV, to the west, is mirrored hallway', False, 3, 11, False))
 
@@ -82,13 +86,13 @@ def create_rooms():
 
     room_list.append(Room(1, 'Foyer', 'You are standing on in the entryway. To the west is a split staircase, going up to a hallway and down to a living area.  Ahead of you is a living room and you can see a sofa.  To your right is an entryway into the Kitchen.', 2, 10, 3, 4))
 
-    room_list.append(Room(2, 'Living Room', 'The living room opens up to your right.  There is a large leather sofa, a chair in the corner and a chest against the wall.  There is also a fireplace here.  You can see a dining room ahead to the north.', 9, 1, False, False))
+    room_list.append(Room(2, 'Living Room', 'The living room opens up to your right.  There is a large leather sofa, a chair in the corner and a chest against the wall.  There is also a fireplace here.  You can see a dining room ahead to the north.', False, 1, False, 9))
 
-    room_list.append(Room(3, 'Upstairs Hallway', 'You are in an upstairs hallway.  There are two doors on the west side, a bathroom straight ahead north , and double doors to the east on your right', 5, 1, 6, 7))
+    room_list.append(Room(3, 'East Upstairs Hallway', 'You are in an upstairs hallway.  There are two doors on the west side, a bathroom straight ahead north , and double doors to the east on your right', 7, 6, 13, 1))
 
-    room_list.append(Room(4, 'Kitchen', 'You are in a kitchen with a hardwood floor.  There is a round table with 4 chairs.  There are granite countertops with a stove built in.  The refridgerator is on the far side of the room and hums quietly.  A dog bowl is on the floor. At the far end of the room, you see an entrance into the dining room. ', 9, 1, False, False))
+    room_list.append(Room(4, 'Kitchen', 'You are in a kitchen with a hardwood floor.  There is a round table with 4 chairs.  There are granite countertops with a stove built in.  The refridgerator is on the far side of the room and hums quietly.  A dog bowl is on the floor. At the far end of the room, you see an entrance into the dining room. ', 9, False, 1, False))
 
-    room_list.append(Room(5, 'Upstairs Bathroom', 'You are in a small bathroom.  There are two sinks and a mirror on your right.  The toilet is hidden behind the open door.  The shower has a glass door and is partially open.  There are many towels hanging on the hooks. ', False, 3, False, False))
+    room_list.append(Room(5, 'Upstairs Bathroom', 'You are in a small bathroom.  There are two sinks and a mirror on your right.  The toilet is hidden behind the open door.  The shower has a glass door and is partially open.  There are many towels hanging on the hooks. ', False, False, False, 13))
 
     rooms = {}
     for each_room in room_list:
@@ -158,11 +162,12 @@ def tell_player_status(rooms, player):
     print bcolors.ENDC,
     
     print bcolors.HEADER,
-    if items[1]:
+    if len(items[1]) > 1:
         print("\n  These others are here :"),
         for item in items[1]:
-            for person in item:
-                print("%s" % person),
+            for person in item.split():
+                if person != player.name:
+                    print("%s" % person),
     else:
         print("\n  There are no others here")
     print bcolors.ENDC,
@@ -175,11 +180,11 @@ def who():
 
 
 def run_game(rooms):
-    main_menu()
-    player = Player('Carl', 10, 'North')
+    player = main_menu()
+    #player = Player('Carl', 10, 'North')
     
     while True:
-        os.system('clear')
+        #os.system('clear')
         tell_player_status(rooms, player)
         available_directions = set_available_directions(rooms[player.location])
         print

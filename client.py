@@ -20,6 +20,7 @@ def who():
     url = base_url + '/who'
     request = url
     r = requests.get(request)
+    print r.text
     return r.text 
 
 
