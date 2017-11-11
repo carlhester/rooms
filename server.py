@@ -45,9 +45,22 @@ roomstuff = {
 
 players = []
 
+def refresh_rooms():
+    items = [items0, items1, items2, items3, items4, items5, items6, items7, items8, items9, items10]
+    people = [people0, people1, people2, people3, people4, people5, people6, people7, people8, people9, people10]
+
 @app.route('/')
 def default():
     pass
+
+@app.route('/move/<string:player_name>/<int:room_id>', methods=['GET'])
+def player_move_to_room(player_name, room_id):
+    for each in people:
+        if player_name in each:
+            each.remove(player_name)
+    people[room_id].append(player_name)
+    return jsonify(room_id)
+    
 
 @app.route('/items/<int:room_id>', methods=['GET'])
 def items_in_room(room_id):

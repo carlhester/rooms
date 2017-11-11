@@ -113,6 +113,7 @@ def get_next_room(room, player):
             who()
         if choice.lower() == 'n' and room.n != False:
             player.turn_north()
+            client.move_player_to_room(player.name, room.n)
             return room.n
         if choice.lower() == 's' and room.s != False:
             player.turn_south()
@@ -124,6 +125,9 @@ def get_next_room(room, player):
             player.turn_east()
             return room.e
         print "Invalid choice"
+
+
+
 
 def startup():
     rooms = create_rooms()
