@@ -117,12 +117,15 @@ def get_next_room(room, player):
             return room.n
         if choice.lower() == 's' and room.s != False:
             player.turn_south()
+            client.move_player_to_room(player.name, room.s)
             return room.s
         if choice.lower() == 'w' and room.w != False:
             player.turn_west()
+            client.move_player_to_room(player.name, room.w)
             return room.w
         if choice.lower() == 'e' and room.e != False:
             player.turn_east()
+            client.move_player_to_room(player.name, room.e)
             return room.e
         print "Invalid choice"
 
