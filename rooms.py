@@ -45,7 +45,11 @@ def main_menu():
     title.print_title()
     print("\n\n")
     user = raw_input("Your name: ")
-    player = Player(user, 10, 'North')
+    player_loc = client.check_player_exists(user)
+    if player_loc:
+        player = Player(user, player_loc, 'North')
+    else:
+        player = Player(user, 10, 'North')
     return player
 
 def create_rooms():

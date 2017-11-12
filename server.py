@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, abort
+import time
 
 app = Flask(__name__)
 
@@ -13,7 +14,11 @@ items7 = []
 items8 = []
 items9 = []
 items10 = ['pumpkin', 'halloween trinkets']
-items = [items0, items1, items2, items3, items4, items5, items6, items7, items8, items9, items10]
+items11 = []
+items12 = []
+items13 = []
+items14 = []
+items = [items0, items1, items2, items3, items4, items5, items6, items7, items8, items9, items10, items11, items12, items13, items14]
 
 people0 = []
 people1 = []
@@ -26,21 +31,29 @@ people7 = []
 people8 = []
 people9 = []
 people10 = []
-people = [people0, people1, people2, people3, people4, people5, people6, people7, people8, people9, people10]
+people11 = []
+people12 = []
+people13 = []
+people14 = []
+people = [people0, people1, people2, people3, people4, people5, people6, people7, people8, people9, people10, people11, people12, people13, people14]
 
 
 
 roomstuff = {
         1:[items1, people1],
         2:[items2, people2],
-        3:[items2, people2],
-        4:[items2, people2],
-        5:[items2, people2],
-        6:[items2, people2],
-        7:[items2, people2],
-        8:[items2, people2],
-        9:[items2, people2],
-        10:[items10, people10]
+        3:[items3, people3],
+        4:[items4, people4],
+        5:[items5, people5],
+        6:[items6, people6],
+        7:[items7, people7],
+        8:[items8, people8],
+        9:[items9, people9],
+        10:[items10, people10], 
+        11:[items11, people11],
+        12:[items12, people12],
+        13:[items13, people13],
+        14:[items14, people14]
     }
 
 players = []
@@ -73,8 +86,15 @@ def create_player(username, location):
     if username not in players:
         players.append(username)
         people[location].append(username)
-        return jsonify(username)
+    return jsonify(username)
 
+@app.route('/player/<string:username>', methods=['GET'])
+def player_exist(username):
+    if username in players:
+        for each in people:
+            if username in each:
+                return jsonify(people.index(each))
+    abort(404)
 
 @app.route('/who', methods=['GET'])
 def who():
