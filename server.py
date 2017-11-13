@@ -57,14 +57,20 @@ roomstuff = {
     }
 
 players = []
+players_list = []
 
-def refresh_rooms():
-    items = [items0, items1, items2, items3, items4, items5, items6, items7, items8, items9, items10]
-    people = [people0, people1, people2, people3, people4, people5, people6, people7, people8, people9, people10]
+class Player():
+    def __init__(self, name, location):
+        self.name = name
+        self.location = location
 
 @app.route('/')
 def default():
     pass
+
+@app.route('/serverstatus', methods=['GET'])
+def server_status():
+    return jsonify(len(players_list))
 
 @app.route('/move/<string:player_name>/<int:room_id>', methods=['GET'])
 def player_move_to_room(player_name, room_id):
@@ -83,11 +89,12 @@ def items_in_room(room_id):
 
 @app.route('/createplayer/<string:username>/<int:location>', methods=['GET'])
 def create_player(username, location):
-    if username not in players:
+    if username not in players_list:
+        players_list.append(Player(username, location))
         players.append(username)
         people[location].append(username)
     return jsonify(username)
-
+        
 @app.route('/player/<string:username>', methods=['GET'])
 def player_exist(username):
     if username in players:

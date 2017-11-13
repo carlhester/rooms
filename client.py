@@ -9,6 +9,12 @@ def get_objects_in_room(room_id):
     items = json.loads(r.text)
     return items
 
+def server_status():
+    url = base_url + 'serverstatus'
+    r = requests.get(url)
+    return r.status_code
+
+
 def create_player(username, location):
     url = base_url + 'createplayer/'
     request = url + str(username) + '/' + str(location)
@@ -18,8 +24,8 @@ def create_player(username, location):
 
 def check_player_exists(username):
     url = base_url + 'player/' + str(username)
-    request = url
-    r = requests.get(request)
+    r = requests.get(url)
+    
     if r.status_code == 200 and r.text:
         return int(r.text)
     return False 

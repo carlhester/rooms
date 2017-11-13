@@ -133,10 +133,18 @@ def get_next_room(room, player):
             return room.e
         print "Invalid choice"
 
-
+def check_server_status():
+    server_status = client.server_status()
+    if server_status != 200:
+        print server_status
+        print bcolors.FAIL,
+        print "Server not responding.\n",
+        print bcolors.ENDC
+        sys.exit()
 
 
 def startup():
+    check_server_status()
     rooms = create_rooms()
     run_game(rooms)
 
