@@ -110,7 +110,7 @@ def create_rooms():
 
 def get_next_room(room, player):
     while True:
-        choice = raw_input("Which way? (q to quit)")
+        choice = raw_input("Which way? (q to quit) ")
         if choice.lower() == 'q':
             sys.exit()
         if choice.lower() == 'who':
